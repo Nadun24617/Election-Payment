@@ -8,7 +8,11 @@
     <title>Document</title>
 </head>
 <body>
-    <?php include_once('components/navbar.php'); ?>
+    <header>
+        <?php include_once('components/header.php'); ?>
+    </header>
+
+
     Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
     Voluptatem sed aperiam laudantium ducimus repellat perferendis illo voluptatibus asperiores provident iusto. 
     Minima non soluta eaque, deleniti possimus illum atque doloremque nihil!

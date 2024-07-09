@@ -1,114 +1,18 @@
-<?php
-session_start();
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "election_payment";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// signin php//
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Query to check if username and password match
-    $sql = "SELECT * FROM user_details WHERE username=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 1) {
-        $user_data = $result->fetch_assoc();
-        if (password_verify($password, $user_data['password'])) {
-            // Password correct, start session and redirect
-            $_SESSION['user_id'] = $user_data['user_id'];
-            
-            exit;
-        } else {
-            // Password incorrect
-            $_SESSION['message'] = "Invalid username or password. Please try again.";
-    
-            exit;
-        }
-    } else {
-        // Username not found
-        $_SESSION['message'] = "Invalid username or password. Please try again.";
-        
-        exit;
-    }
-}
-// sign up php//
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Validate password (example validation)
-    if (strlen($password) !== 8) {
-        $_SESSION['message'] = "Password should be exactly 8 characters long.";
-        header("Location: signup.php");
-        exit;
-    }
-    
-
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Insert user data into database
-    $sql = "INSERT INTO user_details (username, email, password) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $username, $email, $hashed_password);
-
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Registration successful! Please log in.";
-        
-        exit;
-    } else {
-        $_SESSION['message'] = "Error: " . $stmt->error;
-       
-        exit;
-    }
-}
-
-
-?>
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dual Login / Signup Form</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css'>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <style>
         html, body {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #ffffff; /* Set background color to white */
+            background-color: #ffffff;
         }
 
         /* Login Section Style */
@@ -213,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         button {
             border-radius: 50px;
             box-shadow: 0 1px 1px ;
-            border: 1px solid #731A07; /* Changed to #731A07 */
-            background: #731A07; /* Changed to #731A07 */
+            border: 1px solid #731A07;
+            background: #731A07;
             color: #fff;
             font-size: 12px;
             font-weight: bold;
@@ -270,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .overlay {
             background: #ff416c;
-            background: linear-gradient(to right, #731A07, #731A07) no-repeat 0 0 / cover; /* Changed to #731A07 */
+            background: linear-gradient(to right, #731A07, #731A07) no-repeat 0 0 / cover;
             color: #fff;
             position: relative;
             left: -100%;
@@ -338,13 +242,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
+<div class="ocean">
+    <div class="wave"></div>
+    <div class="wave"></div>
+</div>
 <!-- Log In Form Section -->
 <section>
-<form action="" method="post">
-
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form action="#">
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <h1>Sign Up</h1>
                 <div class="social-container">
                     <a href="https://Github.com/farazc60" target="_blank" class="social"><i class="fab fa-github"></i></a>
@@ -353,56 +259,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <span>Or use your Email for registration</span>
                 <label>
-                    <input type="text" name="username" id ="username" placeholder="Username"/>
+                    <input type="text" name="name" placeholder="Name" required/>
                 </label>
                 <label>
-                    <input type="email"name="email" id ="email" placeholder="Email"/>
+                    <input type="email" name="email" placeholder="Email" required/>
                 </label>
                 <label>
-                    <input type="password" name="password" id ="password" placeholder="Password"/>
+                    <input type="password" name="password" placeholder="Password" required/>
                 </label>
-                <button style="margin-top: 9px">Sign Up</button>
+                <button type="submit" name="signup">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
-        <form action="" method="post">
-        
-    
-                <h1>SignIn</h1>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                <h1>Sign in</h1>
                 <div class="social-container">
                     <a href="https://Github.com/farazc60" target="_blank" class="social"><i class="fab fa-github"></i></a>
                     <a href="https://Codepen.io/codewithfaraz" target="_blank" class="social"><i class="fab fa-codepen"></i></a>
                     <a href="mailto:farazc60@gmail.com" target="_blank" class="social"><i class="fab fa-google"></i></a>
                 </div>
-                <span> Or sign in using E-Mail Address</span>
+                <span>Or sign in using E-Mail Address</span>
                 <label>
-                    <input type="text" name="username" id ="username" placeholder="Username"/>
+                    <input type="email" name="email" placeholder="Email" required/>
                 </label>
-                
                 <label>
-                    <input type="password" name="password" id ="password" placeholder="Password"/>
+                    <input type="password" name="password" placeholder="Password" required/>
                 </label>
                 <a href="#">Forgot your password?</a>
-                <button>Sign In</button>
+                <button type="submit" name="login">Sign In</button>
             </form>
         </div>
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
                     <h1>Log in</h1>
-                    <p>Sign in here if you already have an account </p>
+                    <p>Sign in here if you already have an account</p>
                     <button class="ghost mt-5" id="signIn">Sign In</button>
                 </div>
                 <div class="overlay-panel overlay-right">
-                    <h1>Create an Account!</h1>
-                    <p>Sign up if you still don't have an account ... </p>
+                    <h1>Create Account</h1>
+                    <p>Sign up if you still don't have an account</p>
                     <button class="ghost" id="signUp">Sign Up</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 <script>
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
@@ -414,5 +317,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     signInButton.addEventListener('click', () =>
         container.classList.remove('right-panel-active'));
 </script>
+
+<?php
+// PHP code to handle form submissions and database connection
+$servername = "localhost"; // Change as per your MySQL server configuration
+$username = "root"; // MySQL username
+$password = ""; // MySQL password
+$dbname = "election_payment"; // Your MySQL database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Signup Form Submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo '<script>alert("Signup successful");</script>';
+        // Redirect or perform other actions after successful signup
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Login Form Submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE email='$email'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            echo '<script>alert("Login successful");</script>';
+            // Redirect or perform other actions after successful login
+        } else {
+            echo '<script>alert("Incorrect password");</script>';
+        }
+    } else {
+        echo '<script>alert("User not found");</script>';
+    }
+}
+
+// Close MySQL connection
+$conn->close();
+?>
 </body>
 </html>
