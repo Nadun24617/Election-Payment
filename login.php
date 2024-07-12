@@ -12,6 +12,9 @@
       <link rel="stylesheet" href="CSS/style1.css">
     </head>
     <body>
+      <header>
+          <?php include_once('components/header.php'); ?>
+      </header>
         <div class="section">
           <div class="container">
             <div class="row full-height justify-content-center">

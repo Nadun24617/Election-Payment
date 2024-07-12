@@ -1,0 +1,9 @@
+body{
+    background-color: black;
+    background: url('images/background.jpg') rgba(rgb(177, 177, 177), green, blue, alpha);
+    background-blend-mode: multiply;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
