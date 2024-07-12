@@ -9,7 +9,17 @@
     <head>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
-      <link rel="stylesheet" href="CSS/style.css">
+      <style>
+        body{
+            background-color: black;
+            background: url('images/background.jpg') rgba(rgb(177, 177, 177), green, blue, alpha);
+            background-blend-mode: multiply;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+
+        }
+      </style>
     </head>
 
 </head>
