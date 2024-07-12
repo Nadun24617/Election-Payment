@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dual Login / Signup Form</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <style>
@@ -242,22 +242,17 @@
     </style>
 </head>
 <body>
-<div class="ocean">
-    <div class="wave"></div>
-    <div class="wave"></div>
-</div>
+<header>
+    <?php include('components/navbar.php'); ?>
+</header>
+
 <!-- Log In Form Section -->
 <section>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <h1>Sign Up</h1>
-                <div class="social-container">
-                    <a href="https://Github.com/farazc60" target="_blank" class="social"><i class="fab fa-github"></i></a>
-                    <a href="https://Codepen.io/codewithfaraz" target="_blank" class="social"><i class="fab fa-codepen"></i></a>
-                    <a href="mailto:farazc60@gmail.com" target="_blank" class="social"><i class="fab fa-google"></i></a>
-                </div>
-                <span>Or use your Email for registration</span>
+                <span>Use your Email for registration</span>
                 <label>
                     <input type="text" name="name" placeholder="Name" required/>
                 </label>
@@ -273,12 +268,8 @@
         <div class="form-container sign-in-container">
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <h1>Sign in</h1>
-                <div class="social-container">
-                    <a href="https://Github.com/farazc60" target="_blank" class="social"><i class="fab fa-github"></i></a>
-                    <a href="https://Codepen.io/codewithfaraz" target="_blank" class="social"><i class="fab fa-codepen"></i></a>
-                    <a href="mailto:farazc60@gmail.com" target="_blank" class="social"><i class="fab fa-google"></i></a>
-                </div>
-                <span>Or sign in using E-Mail Address</span>
+    
+                <span>Sign in using E-Mail Address</span>
                 <label>
                     <input type="email" name="email" placeholder="Email" required/>
                 </label>
@@ -305,6 +296,9 @@
         </div>
     </div>
 </section>
+
+<?php include 'components/footer.php'; ?>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 <script>
     const signUpButton = document.getElementById('signUp');
