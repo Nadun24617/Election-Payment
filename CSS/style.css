@@ -1,0 +1,8 @@
+body{
+    background-color: black;
+    background: url('images/background.jpg');
+    background-blend-mode: multiply;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
