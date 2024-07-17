@@ -13,7 +13,9 @@
     </head>
     <body>
       <header>
-          
+
+        <?php include_once('components/header.php'); ?>
+
       </header>
         <div class="section">
           <div class="container">
